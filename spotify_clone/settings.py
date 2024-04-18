@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e-0&5*1-w71wqjk4(84@%)z*@l!g5=tqyrhgc65@wttj71b&+='
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -82,15 +87,20 @@ WSGI_APPLICATION = 'spotify_clone.wsgi.application'
 #     }
 # }
 
+# Replace the DATABASES section of your settings.py with this
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'YOUR-NAME',
-        'USER': 'YOUR-USER',
-        'PASSWORD': 'PASSWORD',
-        'HOST': 'YOUR-HOST',
-        'PORT': 5432
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': getenv('PGDATABASE'),
+    'USER': getenv('PGUSER'),
+    'PASSWORD': getenv('PGPASSWORD'),
+    'HOST': getenv('PGHOST'),
+    'PORT': getenv('PGPORT', 5432),
+    'OPTIONS': {
+      'sslmode': 'require',
+    },
+    'DISABLE_SERVER_SIDE_CURSORS': True,
+  }
 }
 
 
