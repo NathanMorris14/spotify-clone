@@ -6,14 +6,23 @@ from django.contrib.auth.decorators import login_required
 import requests
 from bs4 import BeautifulSoup as bs
 import re
+import os
+
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
+
+XRAPIDAPIKEY = os.environ.get('x_rapidapi_key')
+XRAPIDAPIHOST = os.environ.get('x_rapidapi_host')
 
 # Create your views here.
 def top_artists():
     url = "https://spotify-scraper.p.rapidapi.com/v1/chart/artists/top"
 
     headers = {
-        "X-RapidAPI-Key": "02912db996msh068b089c778126bp13a9d9jsn380afeb7d573",
-        "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        "X-RapidAPI-Key": XRAPIDAPIKEY,
+        "X-RapidAPI-Host": XRAPIDAPIHOST
     }
 
     response = requests.get(url, headers=headers)
@@ -35,8 +44,8 @@ def top_tracks():
     url = "https://spotify-scraper.p.rapidapi.com/v1/chart/tracks/top"
 
     headers = {
-        "X-RapidAPI-Key": "02912db996msh068b089c778126bp13a9d9jsn380afeb7d573",
-        "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        "X-RapidAPI-Key": XRAPIDAPIKEY,
+        "X-RapidAPI-Host": XRAPIDAPIHOST
     }
 
     response = requests.get(url, headers=headers)
@@ -72,8 +81,8 @@ def get_audio_etails(query):
     querystring = {"track": query}
 
     headers = {
-        "X-RapidAPI-Key": "02912db996msh068b089c778126bp13a9d9jsn380afeb7d573",
-        "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        "X-RapidAPI-Key": XRAPIDAPIKEY,
+        "X-RapidAPI-Host": XRAPIDAPIHOST
     }
 
     response = requests.get(url, headers=headers, params=querystring)
@@ -127,8 +136,8 @@ def music(request, pk):
     querystring = {"trackId": track_id}
 
     headers = {
-        "X-RapidAPI-Key": "02912db996msh068b089c778126bp13a9d9jsn380afeb7d573",
-        "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        "X-RapidAPI-Key": XRAPIDAPIKEY,
+        "X-RapidAPI-Host": XRAPIDAPIHOST
     }
 
     response = requests.get(url, headers=headers, params=querystring)
@@ -186,8 +195,8 @@ def search(request):
         querystring = {"term":search_query,"type":"track"}
 
         headers = {
-            "X-RapidAPI-Key": "02912db996msh068b089c778126bp13a9d9jsn380afeb7d573",
-            "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        "X-RapidAPI-Key": XRAPIDAPIKEY,
+        "X-RapidAPI-Host": XRAPIDAPIHOST
         }
 
         response = requests.get(url, headers=headers, params=querystring)
@@ -235,8 +244,8 @@ def profile(request, pk):
     querystring = {"artistId": artist_id}
 
     headers = {
-        "X-RapidAPI-Key": "02912db996msh068b089c778126bp13a9d9jsn380afeb7d573",
-        "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        "X-RapidAPI-Key": XRAPIDAPIKEY,
+        "X-RapidAPI-Host": XRAPIDAPIHOST
     }
 
     response = requests.get(url, headers=headers, params=querystring)
